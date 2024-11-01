@@ -50,6 +50,18 @@
         </nav>
       </div>
       <div class="container">
+        <div class="kamera">
+          <h1>Camera 1</h1>
+          <video id="webcam1" autoplay playsinline></video>
+        </div>
+      </div>
+      <div class="container">
+        <div class="kamera2">
+          <h1>Camera 2</h1>
+          <video id="webcam2" autoplay playsinline></video>
+        </div>
+      </div>
+      <div class="container">
         <div class="monitoring">
           <h1>Monitoring Suhu dan Kelembapan</h1>
           <p>Suhu: <span id="suhu" class="value">-</span> °C</p>
@@ -218,5 +230,7 @@
         document.getElementById("submenu").style.right = "-200px";
       }
     </script>
+    <script src="cam.js"></script>
   </body>
 </html>
+
