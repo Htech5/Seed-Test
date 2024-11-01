@@ -762,6 +762,19 @@ nav .fa-solid{
     display: none;
 }
 
+@media only screen and (width: 1024px) and (height: 600px){
+    #Poto{
+        height: 400vh !important;
+    }
+
+    #services{
+        height: 280vh !important;
+    }
+    .description{
+        margin-top: 300px !important;
+        font-weight: 400px !important; 
+    }
+}
 @media only screen and (max-width: 1500px){
 
     #header{
