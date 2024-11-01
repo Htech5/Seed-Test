@@ -113,7 +113,7 @@ nav .fa-solid{
 }
 
 .monitoring{
-    margin-top: 100px;
+    margin-top: 50px;
     margin-right: 100px;
     margin-left: 400px;
     padding-top: 20px;
@@ -160,6 +160,41 @@ nav .fa-solid{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan untuk estetika */
 }
 
+.kamera{
+    margin-top: 80px;
+    margin-right: 100px;
+    margin-left: 400px;
+    margin-bottom: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+    align-content: center;
+    position: flex;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1); /* Warna transparan */
+    border-radius: 10px;
+    backdrop-filter: blur(10px); /* Efek blur pada background */
+    -webkit-backdrop-filter: blur(10px); /* Kompatibilitas untuk Safari */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan untuk estetika */
+}
+
+.kamera2{
+    margin-top: 10px;
+    margin-right: 100px;
+    margin-left: 400px;
+    margin-bottom: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+    align-content: center;
+    position: flex;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1); /* Warna transparan */
+    border-radius: 10px;
+    backdrop-filter: blur(10px); /* Efek blur pada background */
+    -webkit-backdrop-filter: blur(10px); /* Kompatibilitas untuk Safari */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan untuk estetika */
+}
 
 .btn{
     position: relative;
@@ -242,9 +277,26 @@ nav .fa-solid{
     }
     .monitoring {
         width: 100%; /* Sesuaikan lebar */
-        margin-top: 200px;
+        margin-top: 50px;
         margin-left: 0;
     }
+
+    #webcam1, #webcam2{
+        width: 100%;
+        margin: 5px 0;
+    }
+    .kamera{
+        width: 100%;
+        margin-top: 100px;
+        margin-left: 0;
+    }
+
+    .kamera2{
+        width: 100%;
+        margin-top: 50px;
+        margin-left: 0;
+    }
+
 
     .kontrol {
         width: 80%;
