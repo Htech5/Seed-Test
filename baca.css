@@ -236,6 +236,24 @@ nav .fa-solid{
     box-shadow: 11px 11px 22px #141414, -11px -11px 22px #525252;
 }
 
+@media only screen and (width: 1024px) and (height: 600px){
+    .kontrol {
+        width: 100%;
+        display: flex;
+        flex-direction: row;        /* Susun elemen secara horizontal */
+        flex-wrap: wrap;            /* Bungkus elemen ke baris baru jika melebihi lebar */
+        justify-content: space-around;
+        align-items: center;
+        margin-left: 10%;
+        margin-right: 5%;
+        gap: 20px;
+    }
+    
+    .kontrol > * {
+        flex: 1 1 45%;              /* Setiap elemen mengambil sekitar 45% dari lebar container */
+        max-width: 40%;             /* Batas maksimum untuk memastikan hanya ada dua kolom */
+    }
+}
 
 @media only screen and (max-width: 1500px){
     *{
@@ -299,19 +317,19 @@ nav .fa-solid{
 
 
     .kontrol {
-        width: 80%;
+        width: 100%;
         display: flex;
         flex-direction: row;        /* Susun elemen secara horizontal */
         flex-wrap: wrap;            /* Bungkus elemen ke baris baru jika melebihi lebar */
         justify-content: space-around;
         align-items: center;
-        margin-left: 10%;
+        margin-left: 0%;
         margin-right: 5%;
-        gap: 20px;
+        gap: 60px;
     }
     
     .kontrol > * {
-        flex: 1 1 45%;              /* Setiap elemen mengambil sekitar 45% dari lebar container */
+        flex: 1 1 50%;              /* Setiap elemen mengambil sekitar 45% dari lebar container */
         max-width: 40%;             /* Batas maksimum untuk memastikan hanya ada dua kolom */
     }
     
@@ -327,10 +345,10 @@ nav .fa-solid{
 
     .btn {
         box-shadow: none;
-        border-color: #fff;
         margin-top: 40px;
-        width: 6em;
+        width: 3em;
         height: 6em;
+        border: none !important;
     }
 
     .btn::before{
