@@ -52,13 +52,81 @@
       <div class="container">
         <div class="kamera">
           <h1>Camera 1</h1>
-          <video id="webcam1" autoplay playsinline></video>
+          <video id="webcam2" autoplay playsinline></video>
+          <br />
         </div>
       </div>
       <div class="container">
         <div class="kamera2">
           <h1>Camera 2</h1>
-          <video id="webcam2" autoplay playsinline></video>
+          <video id="webcam1" autoplay playsinline></video>
+          <br />
+
+          <label for="hourInput">HH:</label>
+          <input
+            type="number"
+            id="hourInput"
+            class="input-box"
+            value="00"
+            min="0"
+            max="23"
+            step="1"
+          />
+          <label for="minuteInput">MM:</label>
+          <input
+            type="number"
+            id="minuteInput"
+            class="input-box"
+            value="00"
+            min="0"
+            max="59"
+            step="1"
+          />
+          <label for="secondInput">SS:</label>
+          <input
+            type="number"
+            id="secondInput"
+            class="input-box"
+            value="00"
+            min="0"
+            max="59"
+            step="1"
+          />
+
+          <br />
+          <button id="startButton">Start Timer</button>
+          <div id="timer">00 : 00 : 00</div>
+          <canvas id="canvas"></canvas>
+        </div>
+      </div>
+      <div class="container">
+        <div class="monitoring">
+          <h1>Masukkan Suhu Yang Diinginkan</h1>
+
+          <!-- Kolom input -->
+          <input
+            type="text"
+            id="inputField"
+            placeholder="Masukkan Celcius"
+            readonly
+          />
+
+          <!-- Keypad -->
+          <div class="keypad">
+            <button class="key" onclick="addCharacter('1')">1</button>
+            <button class="key" onclick="addCharacter('2')">2</button>
+            <button class="key" onclick="addCharacter('3')">3</button>
+            <button class="key" onclick="addCharacter('4')">4</button>
+            <button class="key" onclick="addCharacter('5')">5</button>
+            <button class="key" onclick="addCharacter('6')">6</button>
+            <button class="key" onclick="addCharacter('7')">7</button>
+            <button class="key" onclick="addCharacter('8')">8</button>
+            <button class="key" onclick="addCharacter('9')">9</button>
+            <button class="key" onclick="addCharacter('0')">0</button>
+            <button class="key" onclick="clearInput()">Clear</button>
+            <!-- Tombol OK -->
+            <button class="key" onclick="saveValue()">OK</button>
+          </div>
         </div>
       </div>
       <div class="container">
@@ -159,7 +227,38 @@
       });
 
       // WebSocket connection
-      let websocket = new WebSocket("wss://192.168.1.24:8765");
+      let websocket = new WebSocket("ws://192.168.1.24:8765");
+
+      let storedValue = ""; // Variabel untuk menyimpan nilai
+
+      function addCharacter(char) {
+        const inputField = document.getElementById("inputField");
+        inputField.value += char;
+      }
+
+      function clearInput() {
+        const inputField = document.getElementById("inputField");
+        inputField.value = "";
+      }
+
+      function saveValue() {
+        const inputField = document.getElementById("inputField");
+        storedValue = inputField.value; // Menyimpan nilai input ke dalam variabel
+        alert("Celcius Tersett : " + storedValue); // Menampilkan alert untuk konfirmasi
+
+        // Mengirimkan nilai yang disimpan ke WebSocket
+        const message = {
+          type: "set", // Tipe pesan
+          value: storedValue, // Nilai yang disimpan
+        };
+
+        if (websocket.readyState === WebSocket.OPEN) {
+          websocket.send(JSON.stringify(message)); // Mengirim pesan JSON
+          console.log("Nilai terkirim ke WebSocket:", message);
+        } else {
+          console.log("WebSocket tidak terhubung.");
+        }
+      }
 
       // Fungsi untuk memperbarui grafik
       function updateCharts(data) {
@@ -230,6 +329,7 @@
         document.getElementById("submenu").style.right = "-200px";
       }
     </script>
+
     <script src="cam.js"></script>
   </body>
 </html>
