@@ -199,6 +199,21 @@ input {
     font-weight: bold;
     transition: background-color 0.5s;  
 }
+
+#stopButton {
+    font-weight: bold;
+    color: #E9EFEC;
+    background-color: #16423C;
+    font-size: 18px;
+    padding: 10px;
+    margin-top: 10px;
+  }
+
+  #stopButton:hover{
+    background-color: #ff004f;
+    font-weight: bold;
+    transition: background-color 0.5s;  
+}
 .kontrol{
     margin-top: 40px;
     margin-right: 100px;
@@ -228,6 +243,10 @@ input {
     backdrop-filter: blur(10px); /* Efek blur pada background */
     -webkit-backdrop-filter: blur(10px); /* Kompatibilitas untuk Safari */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan untuk estetika */
+}
+
+.TextSuhu, .TextKelembapan{
+    font-size: 40px;
 }
 
 .kamera{
