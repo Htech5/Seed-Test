@@ -95,6 +95,7 @@
 
           <br />
           <button id="startButton">Start Timer</button>
+          <button id="stopButton">Stop</button>
           <div id="timer">00 : 00 : 00</div>
           <canvas id="canvas"></canvas>
         </div>
@@ -103,7 +104,7 @@
         <div class="monitoring">
           <h1>Masukkan Suhu Yang Diinginkan</h1>
 
-          <!-- Kolom input -->
+          <!-- Kolom input untuk suhu -->
           <input
             type="text"
             id="inputField"
@@ -111,7 +112,7 @@
             readonly
           />
 
-          <!-- Keypad -->
+          <!-- Keypad untuk suhu -->
           <div class="keypad">
             <button class="key" onclick="addCharacter('1')">1</button>
             <button class="key" onclick="addCharacter('2')">2</button>
@@ -124,16 +125,61 @@
             <button class="key" onclick="addCharacter('9')">9</button>
             <button class="key" onclick="addCharacter('0')">0</button>
             <button class="key" onclick="clearInput()">Clear</button>
-            <!-- Tombol OK -->
             <button class="key" onclick="saveValue()">OK</button>
           </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="monitoring">
+          <h1>Masukkan Humidity Yang Diinginkan</h1>
+
+          <!-- Kolom input untuk kelembapan -->
+          <input
+            type="text"
+            id="inputField2"
+            placeholder="Masukkan Humidity"
+            readonly
+          />
+
+          <!-- Keypad untuk kelembapan -->
+          <div class="keypad">
+            <button class="key" onclick="addCharacter2('1')">1</button>
+            <button class="key" onclick="addCharacter2('2')">2</button>
+            <button class="key" onclick="addCharacter2('3')">3</button>
+            <button class="key" onclick="addCharacter2('4')">4</button>
+            <button class="key" onclick="addCharacter2('5')">5</button>
+            <button class="key" onclick="addCharacter2('6')">6</button>
+            <button class="key" onclick="addCharacter2('7')">7</button>
+            <button class="key" onclick="addCharacter2('8')">8</button>
+            <button class="key" onclick="addCharacter2('9')">9</button>
+            <button class="key" onclick="addCharacter2('0')">0</button>
+            <button class="key" onclick="clearInput2()">Clear</button>
+            <button class="key" onclick="saveValue2()">OK</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="monitoring">
+          <h1>Target Suhu & Kelembapan</h1>
+          <p class="TextSuhu">
+            Suhu: <span id="targetSuhu" class="value">-</span> °C
+          </p>
+          <p class="TextKelembapan">
+            Kelembapan: <span id="targetKelembapan" class="value">-</span> %
+          </p>
         </div>
       </div>
       <div class="container">
         <div class="monitoring">
           <h1>Monitoring Suhu dan Kelembapan</h1>
-          <p>Suhu: <span id="suhu" class="value">-</span> °C</p>
-          <p>Kelembapan: <span id="kelembapan" class="value">-</span> %</p>
+          <p class="TextSuhu">
+            Suhu: <span id="suhu" class="value">-</span> °C
+          </p>
+          <p class="TextKelembapan">
+            Kelembapan: <span id="kelembapan" class="value">-</span> %
+          </p>
           <h2>Fan 1 Status: <span id="fan1_status">-</span></h2>
           <h2>Fan 2 Status: <span id="fan2_status">-</span></h2>
         </div>
@@ -161,176 +207,7 @@
         </div>
       </div>
     </div>
-    <script>
-      // Inisialisasi Chart.js untuk suhu
-      const ctxTemperature = document
-        .getElementById("temperatureChart")
-        .getContext("2d");
-      const temperatureChart = new Chart(ctxTemperature, {
-        type: "line",
-        data: {
-          labels: [], // Waktu akan ditambahkan secara dinamis
-          datasets: [
-            {
-              label: "Suhu (°C)",
-              data: [],
-              borderColor: "rgba(255, 99, 132, 1)",
-              backgroundColor: "rgba(255, 99, 132, 0.2)",
-              fill: true,
-              tension: 0.1,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: { title: { display: true, text: "Waktu (s)" } },
-            y: {
-              title: { display: true, text: "Suhu (°C)" },
-              min: 0,
-              max: 100,
-            },
-          },
-        },
-      });
-
-      // Inisialisasi Chart.js untuk kelembapan
-      const ctxHumidity = document
-        .getElementById("humidityChart")
-        .getContext("2d");
-      const humidityChart = new Chart(ctxHumidity, {
-        type: "line",
-        data: {
-          labels: [],
-          datasets: [
-            {
-              label: "Kelembapan (%)",
-              data: [],
-              borderColor: "rgba(54, 162, 235, 1)",
-              backgroundColor: "rgba(54, 162, 235, 0.2)",
-              fill: true,
-              tension: 0.1,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: { title: { display: true, text: "Waktu (s)" } },
-            y: {
-              title: { display: true, text: "Kelembapan (%)" },
-              min: 0,
-              max: 100,
-            },
-          },
-        },
-      });
-
-      // WebSocket connection
-      let websocket = new WebSocket("ws://192.168.1.24:8765");
-
-      let storedValue = ""; // Variabel untuk menyimpan nilai
-
-      function addCharacter(char) {
-        const inputField = document.getElementById("inputField");
-        inputField.value += char;
-      }
-
-      function clearInput() {
-        const inputField = document.getElementById("inputField");
-        inputField.value = "";
-      }
-
-      function saveValue() {
-        const inputField = document.getElementById("inputField");
-        storedValue = inputField.value; // Menyimpan nilai input ke dalam variabel
-        alert("Celcius Tersett : " + storedValue); // Menampilkan alert untuk konfirmasi
-
-        // Mengirimkan nilai yang disimpan ke WebSocket
-        const message = {
-          type: "set", // Tipe pesan
-          value: storedValue, // Nilai yang disimpan
-        };
-
-        if (websocket.readyState === WebSocket.OPEN) {
-          websocket.send(JSON.stringify(message)); // Mengirim pesan JSON
-          console.log("Nilai terkirim ke WebSocket:", message);
-        } else {
-          console.log("WebSocket tidak terhubung.");
-        }
-      }
-
-      // Fungsi untuk memperbarui grafik
-      function updateCharts(data) {
-        const time = new Date().toLocaleTimeString();
-
-        // Update suhu
-        if (temperatureChart.data.labels.length > 20) {
-          temperatureChart.data.labels.shift();
-          temperatureChart.data.datasets[0].data.shift();
-        }
-        temperatureChart.data.labels.push(time);
-        temperatureChart.data.datasets[0].data.push(data.temperature);
-        temperatureChart.update();
-
-        // Update kelembapan
-        if (humidityChart.data.labels.length > 20) {
-          humidityChart.data.labels.shift();
-          humidityChart.data.datasets[0].data.shift();
-        }
-        humidityChart.data.labels.push(time);
-        humidityChart.data.datasets[0].data.push(data.humidity);
-        humidityChart.update();
-      }
-
-      // Handle pesan WebSocket
-      websocket.onmessage = function (event) {
-        let data = JSON.parse(event.data);
-        document.getElementById("suhu").textContent = data.temperature;
-        document.getElementById("kelembapan").textContent = data.humidity;
-        document.getElementById("fan1_status").textContent = data.fan1_status
-          ? "ON"
-          : "OFF";
-        document.getElementById("fan2_status").textContent = data.fan2_status
-          ? "ON"
-          : "OFF";
-
-        // Update grafik
-        updateCharts(data);
-      };
-
-      // Fungsi toggle relay
-      function setupToggle(buttonId, relayName) {
-        const button = document.getElementById(buttonId);
-        const icon = button.querySelector("i");
-        let isOn = false;
-
-        button.addEventListener("click", function () {
-          isOn = !isOn;
-          button.classList.toggle("button-clicked", isOn);
-          icon.classList.toggle("icon-clicked", isOn);
-
-          let message = {};
-          message[relayName] = isOn ? 1 : 0;
-          websocket.send(JSON.stringify(message));
-        });
-      }
-
-      setupToggle("relay_a_toggle", "relay_a");
-      setupToggle("relay_b_toggle", "relay_b");
-      setupToggle("relay_c_toggle", "relay_c");
-      setupToggle("relay_d_toggle", "relay_d");
-
-      function openmenu() {
-        document.getElementById("submenu").style.right = "0";
-      }
-
-      function closemenu() {
-        document.getElementById("submenu").style.right = "-200px";
-      }
-    </script>
-
+    <script src="baca.js"></script>
     <script src="cam.js"></script>
   </body>
 </html>
-
